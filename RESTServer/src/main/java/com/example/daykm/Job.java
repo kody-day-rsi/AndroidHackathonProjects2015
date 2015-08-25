@@ -1,4 +1,4 @@
-package muhpackage;
+package com.example.daykm;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

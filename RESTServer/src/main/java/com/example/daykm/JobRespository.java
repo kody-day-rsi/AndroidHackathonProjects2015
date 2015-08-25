@@ -1,4 +1,4 @@
-package muhpackage;
+package com.example.daykm;
 
 import org.springframework.data.repository.CrudRepository;
 
