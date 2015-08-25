@@ -1,4 +1,4 @@
-package com.example.daykm;
+package com.rsi;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

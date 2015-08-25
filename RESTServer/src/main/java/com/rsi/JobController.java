@@ -1,4 +1,4 @@
-package com.example.daykm;
+package com.rsi;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestBody;

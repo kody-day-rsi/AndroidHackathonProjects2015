@@ -1,4 +1,4 @@
-package com.example.daykm;
+package com.rsi;
 
 import org.springframework.data.repository.CrudRepository;
 
