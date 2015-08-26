@@ -71,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeService() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint("http://10.0.3.2:8080")
+                .setEndpoint("http://10.0.2.2:8080")
                 .build();
         mService = restAdapter.create(TestService.class);
     }
