@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             @Override public void failure(RetrofitError error) {
                 // Do nothing
+                Log.i(TAG, "It broke");
             }
         };
         addJobButton.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
     private void initializeService() {
         RestAdapter restAdapter = new RestAdapter.Builder()
                 .setLogLevel(RestAdapter.LogLevel.FULL)
-                .setEndpoint("http://10.0.2.2:8080")
+                .setEndpoint(getResources().getString(R.string.endpoint))
                 .build();
         mService = restAdapter.create(TestService.class);
     }

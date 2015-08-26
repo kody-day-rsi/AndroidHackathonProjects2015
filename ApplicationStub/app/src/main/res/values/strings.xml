@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Application Stub</string>
-
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+
+    <string name="endpoint">http://10.0.2.2:8080</string>
 </resources>
