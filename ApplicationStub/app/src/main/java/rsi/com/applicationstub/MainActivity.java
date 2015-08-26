@@ -7,6 +7,7 @@ import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,6 +29,8 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String JOB_LIST_KEY = "JOBS";
 
+    private EditText positionEditText, locationEditText;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -44,6 +47,8 @@ public class MainActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 
+        positionEditText = (EditText) findViewById(R.id.position);
+        locationEditText = (EditText) findViewById(R.id.location);
         Button addJobButton = (Button) findViewById(R.id.addJobButton);
 
         final Callback<List<Job>> createJobCallback = new Callback<List<Job>>() {
@@ -59,7 +64,8 @@ public class MainActivity extends AppCompatActivity {
         };
         addJobButton.setOnClickListener(new View.OnClickListener() {
             @Override public void onClick(View v) {
-                Job job = new Job("Position " + Integer.toString((int) (Math.random() * 20)), "Enterprise Mill");
+                Job job = new Job(positionEditText.getText().toString(), locationEditText.getText().toString());
+                //Job job = new Job("Position " + Integer.toString((int) (Math.random() * 20)), "Enterprise Mill");
                 mService.createJob(job, createJobCallback);
             }
         });
