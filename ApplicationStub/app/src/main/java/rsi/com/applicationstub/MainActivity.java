@@ -1,13 +1,19 @@
 package rsi.com.applicationstub;
 
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.PopupWindow;
+import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +23,10 @@ import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rsi.com.applicationstub.domain.Job;
+import rsi.com.applicationstub.view.AddJobDialog;
 import rsi.com.applicationstub.view.JobListViewAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddJobDialog.AddJobDialogListener{
 
     private static String TAG = MainActivity.class.getSimpleName();
 
@@ -31,30 +38,30 @@ public class MainActivity extends AppCompatActivity {
 
     private EditText positionEditText, locationEditText;
 
+    private Callback<List<Job>> mServiceCallback;
+
+    private FrameLayout mProgessBar;
+
     @Override protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
+        //setProgress();
         setContentView(R.layout.activity_main);
         initializeService();
-        List<Job> jobs;
-        if(savedInstanceState != null) {
-            jobs = savedInstanceState.getParcelableArrayList(JOB_LIST_KEY);
-        } else {
-            jobs = new ArrayList<>();
-        }
-        mAdapter = new JobListViewAdapter(jobs);
 
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.jobListView);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mAdapter);
-
+        mProgessBar = (FrameLayout) findViewById(R.id.progressBar);
         positionEditText = (EditText) findViewById(R.id.position);
         locationEditText = (EditText) findViewById(R.id.location);
-        Button addJobButton = (Button) findViewById(R.id.addJobButton);
+        FloatingActionButton addJobButton = (FloatingActionButton) findViewById(R.id.addJobButton);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.jobListView);
 
-        final Callback<List<Job>> createJobCallback = new Callback<List<Job>>() {
+        mAdapter = new JobListViewAdapter();
+
+        mServiceCallback = new Callback<List<Job>>() {
             @Override public void success(List<Job> jobs, Response response) {
                 mAdapter.setJobs(jobs);
                 mAdapter.notifyDataSetChanged();
+                mProgessBar.setVisibility(View.INVISIBLE);
             }
 
             @Override public void failure(RetrofitError error) {
@@ -62,14 +69,24 @@ public class MainActivity extends AppCompatActivity {
                 Log.i(TAG, "It broke");
             }
         };
+
+        if(savedInstanceState != null) {
+            ArrayList<Job> jobs = savedInstanceState.getParcelableArrayList(JOB_LIST_KEY);
+            mAdapter.setJobs(jobs);
+        } else {
+            mProgessBar.setVisibility(View.VISIBLE);
+            mService.getJobs(mServiceCallback);
+        }
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mAdapter);
+
+
         addJobButton.setOnClickListener(new View.OnClickListener() {
-            @Override public void onClick(View v) {
-                Job job = new Job(positionEditText.getText().toString(), locationEditText.getText().toString());
-                //Job job = new Job("Position " + Integer.toString((int) (Math.random() * 20)), "Enterprise Mill");
-                mService.createJob(job, createJobCallback);
+            @Override
+            public void onClick(View v) {
+                new AddJobDialog().show(getSupportFragmentManager(), "addJob");
             }
         });
-
     }
 
     @Override public void onSaveInstanceState(Bundle state) {
@@ -82,5 +99,16 @@ public class MainActivity extends AppCompatActivity {
                 .setEndpoint(getResources().getString(R.string.endpoint))
                 .build();
         mService = restAdapter.create(TestService.class);
+    }
+
+    @Override
+    public void onDialogConfirm(Job job) {
+        mProgessBar.setVisibility(View.VISIBLE);
+        mService.createJob(job, mServiceCallback);
+    }
+
+    private PopupWindow addDim() {
+        LayoutInflater inflater = getLayoutInflater();
+        return null;
     }
 }

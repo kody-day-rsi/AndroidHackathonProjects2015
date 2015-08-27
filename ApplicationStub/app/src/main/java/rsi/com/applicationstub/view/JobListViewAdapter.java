@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import rsi.com.applicationstub.R;
@@ -14,10 +15,6 @@ import rsi.com.applicationstub.domain.Job;
 public class JobListViewAdapter extends RecyclerView.Adapter<JobListViewAdapter.JobViewHolder> {
 
     private List<Job> jobs;
-
-    public JobListViewAdapter(List<Job> jobs) {
-        this.jobs = jobs;
-    }
 
     @Override
     public JobViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -35,7 +32,7 @@ public class JobListViewAdapter extends RecyclerView.Adapter<JobListViewAdapter.
 
     @Override
     public int getItemCount() {
-        return jobs.size();
+        return jobs != null ? jobs.size() : 0;
     }
 
     public class JobViewHolder extends RecyclerView.ViewHolder {
@@ -56,6 +53,10 @@ public class JobListViewAdapter extends RecyclerView.Adapter<JobListViewAdapter.
 
     public List<Job> getJobs() {
         return jobs;
+    }
+
+    public void setJobs(ArrayList<Job> jobs) {
+        this.jobs = jobs;
     }
 
     public void setJobs(List<Job> jobs) {
