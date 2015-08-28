@@ -14,19 +14,18 @@ import rsi.com.applicationstub.domain.Job;
 
 public class AddJobDialog extends DialogFragment {
 
-    public interface AddJobDialogListener {
-        void onDialogConfirm(Job job);
+    private AddJobDialogListener mListener;
+
+    private EditText mPositionText, mLocationText;
+
+    public static AddJobDialog newInstance(AddJobDialogListener mListener) {
+        AddJobDialog addJobDialog = new AddJobDialog();
+        addJobDialog.mListener = mListener;
+        return addJobDialog;
     }
 
-    AddJobDialogListener mListener;
-
-    EditText mPositionText, mLocationText;
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-
-        mListener = (AddJobDialogListener) activity;
+    public interface AddJobDialogListener {
+        void onDialogConfirm(Job job);
     }
 
     @Override

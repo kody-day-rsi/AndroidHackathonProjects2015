@@ -2,18 +2,12 @@ package rsi.com.applicationstub;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.Window;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.PopupWindow;
-import android.widget.ProgressBar;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,70 +20,110 @@ import rsi.com.applicationstub.domain.Job;
 import rsi.com.applicationstub.view.AddJobDialog;
 import rsi.com.applicationstub.view.JobListViewAdapter;
 
-public class MainActivity extends AppCompatActivity implements AddJobDialog.AddJobDialogListener{
+public class MainActivity extends AppCompatActivity {
 
-    private static String TAG = MainActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
+    private static final String JOB_LIST_KEY = "JOBS";
 
     private TestService mService;
+    private Callback<List<Job>> mServiceCallback;
+    private Callback<List<Job>> mRefreshCallback;
 
     private JobListViewAdapter mAdapter;
 
-    private static final String JOB_LIST_KEY = "JOBS";
+    private SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private EditText positionEditText, locationEditText;
-
-    private Callback<List<Job>> mServiceCallback;
-
-    private FrameLayout mProgessBar;
-
-    @Override protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        supportRequestWindowFeature(Window.FEATURE_INDETERMINATE_PROGRESS);
-        //setProgress();
+    @Override
+    protected void onCreate(Bundle state) {
+        super.onCreate(state);
         setContentView(R.layout.activity_main);
         initializeService();
-
-        mProgessBar = (FrameLayout) findViewById(R.id.progressBar);
-        positionEditText = (EditText) findViewById(R.id.position);
-        locationEditText = (EditText) findViewById(R.id.location);
+        mAdapter = new JobListViewAdapter();
+        mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
         FloatingActionButton addJobButton = (FloatingActionButton) findViewById(R.id.addJobButton);
         RecyclerView recyclerView = (RecyclerView) findViewById(R.id.jobListView);
 
-        mAdapter = new JobListViewAdapter();
-
         mServiceCallback = new Callback<List<Job>>() {
-            @Override public void success(List<Job> jobs, Response response) {
+            @Override
+            public void success(List<Job> jobs, Response response) {
                 mAdapter.setJobs(jobs);
                 mAdapter.notifyDataSetChanged();
-                mProgessBar.setVisibility(View.INVISIBLE);
+                mSwipeRefreshLayout.setRefreshing(false);
             }
 
-            @Override public void failure(RetrofitError error) {
-                // Do nothing
-                Log.i(TAG, "It broke");
+            @Override
+            public void failure(RetrofitError error) {
+                mSwipeRefreshLayout.setRefreshing(false);
             }
         };
 
-        if(savedInstanceState != null) {
-            ArrayList<Job> jobs = savedInstanceState.getParcelableArrayList(JOB_LIST_KEY);
-            mAdapter.setJobs(jobs);
-        } else {
-            mProgessBar.setVisibility(View.VISIBLE);
-            mService.getJobs(mServiceCallback);
-        }
+        mRefreshCallback = new Callback<List<Job>>() {
+            @Override
+            public void success(List<Job> jobs, Response response) {
+                mAdapter.setJobs(jobs);
+                mAdapter.notifyDataSetChanged();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+
+            @Override
+            public void failure(RetrofitError error) {
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        };
+
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mService.getJobs(mRefreshCallback);
+            }
+        });
+
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setAdapter(mAdapter);
 
+        recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(RecyclerView recyclerView, int state) {
+                Log.i(TAG, "Listener triggered");
+                if (state == RecyclerView.SCROLL_STATE_IDLE) {
+                    mSwipeRefreshLayout.setEnabled(
+                            ((LinearLayoutManager) recyclerView.getLayoutManager())
+                                    .findFirstCompletelyVisibleItemPosition() == 0
+                    );
+                }
+            }
+        });
 
         addJobButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new AddJobDialog().show(getSupportFragmentManager(), "addJob");
+                AddJobDialog.newInstance(
+                        new AddJobDialog.AddJobDialogListener() {
+                            @Override
+                            public void onDialogConfirm(Job job) {
+                                mService.createJob(job, mServiceCallback);
+                            }
+                        }
+                ).show(getSupportFragmentManager(), "addJob");
             }
         });
+
+        if (state != null) {
+            ArrayList<Job> jobs = state.getParcelableArrayList(JOB_LIST_KEY);
+            mAdapter.setJobs(jobs);
+        } else {
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                    mService.getJobs(mRefreshCallback);
+                }
+            });
+        }
     }
 
-    @Override public void onSaveInstanceState(Bundle state) {
+    @Override
+    public void onSaveInstanceState(Bundle state) {
         state.putParcelableArrayList(JOB_LIST_KEY, new ArrayList<>(mAdapter.getJobs()));
     }
 
@@ -99,16 +133,5 @@ public class MainActivity extends AppCompatActivity implements AddJobDialog.AddJ
                 .setEndpoint(getResources().getString(R.string.endpoint))
                 .build();
         mService = restAdapter.create(TestService.class);
-    }
-
-    @Override
-    public void onDialogConfirm(Job job) {
-        mProgessBar.setVisibility(View.VISIBLE);
-        mService.createJob(job, mServiceCallback);
-    }
-
-    private PopupWindow addDim() {
-        LayoutInflater inflater = getLayoutInflater();
-        return null;
     }
 }

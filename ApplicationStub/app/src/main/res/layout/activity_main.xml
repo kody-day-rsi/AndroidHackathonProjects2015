@@ -2,50 +2,33 @@
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
 
-    <FrameLayout
-        android:id="@+id/progressBar"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/swipeRefreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="invisible"
-        android:background="@color/fade">
+        android:layout_height="match_parent">
 
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:indeterminate="true"
-            android:indeterminateBehavior="repeat"
-            tools:visibility="visible" />
-    </FrameLayout>
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:padding="@dimen/activity_horizontal_margin">
-
-        <LinearLayout
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/jobListView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            tools:context=".MainActivity">
+            android:scrollbars="vertical"
+            tools:listItem="@layout/job_list_item" />
 
-            <android.support.v7.widget.RecyclerView
-                android:id="@+id/jobListView"
-                android:layout_width="match_parent"
-                android:layout_height="0dp"
-                android:layout_weight="1"
-                android:scrollbars="vertical" />
+    </android.support.v4.widget.SwipeRefreshLayout>
 
-        </LinearLayout>
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:padding="@dimen/activity_horizontal_margin">
 
         <android.support.design.widget.FloatingActionButton
             android:id="@+id/addJobButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="bottom|end"
             android:src="@drawable/ic_add_black_48dp" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>
