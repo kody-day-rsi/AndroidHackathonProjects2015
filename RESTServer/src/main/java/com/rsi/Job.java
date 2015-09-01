@@ -1,9 +1,7 @@
 package com.rsi;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
+import javax.persistence.*;
+import java.util.Date;
 
 @Entity
 public class Job {
@@ -18,14 +16,19 @@ public class Job {
     @Column(nullable = false)
     private String location;
 
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column
+    private Date timestamp;
+
     public Job() {
         // default constructor
     }
 
 
-    public Job(String position, String location) {
+    public Job(String position, String location, Date timestamp) {
         this.position = position;
         this.location = location;
+        this.timestamp = timestamp;
     }
 
     public String getPosition() {
@@ -44,4 +47,11 @@ public class Job {
         this.location = location;
     }
 
+    public Date getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(Date timestamp) {
+        this.timestamp = timestamp;
+    }
 }

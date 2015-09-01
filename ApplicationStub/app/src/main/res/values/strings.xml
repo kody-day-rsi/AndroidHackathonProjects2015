@@ -7,7 +7,15 @@
 
     <string name="location">Location</string>
     <string name="position">Position</string>
+    <string name="date">Date</string>
     <string name="dialog_add_job_title">Add Job</string>
     <string name="dialog_add">Add</string>
     <string name="dialog_cancel">Cancel</string>
+    <string name="dialog_change_sort">Change jobs sort order</string>
+
+    <string name="OK">OK</string>
+
+    <string name="menu_sort">Sort</string>
+
+    <string name="snackbar_error">Network Error</string>
 </resources>

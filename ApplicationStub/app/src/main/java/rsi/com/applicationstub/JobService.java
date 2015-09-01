@@ -8,7 +8,7 @@ import retrofit.http.GET;
 import retrofit.http.POST;
 import rsi.com.applicationstub.domain.Job;
 
-public interface TestService {
+public interface JobService {
 
     @GET("/getJobs")
     void getJobs(Callback<List<Job>> cb);
