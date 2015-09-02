@@ -24,12 +24,23 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
+    flavorDimensions 'endpoint', 'apikey'
     productFlavors {
         studioEmulator {
             // Change endpoint for android studio's emulator
+            flavorDimension 'endpoint'
         }
         genymotion {
             // Change endpoint for genymotion's emulator
+            flavorDimension 'endpoint'
+        }
+        NoAPI {
+            flavorDimension 'apikey'
+        }
+        GoogleAPI {
+            // with actual API key
+            flavorDimension 'apikey'
         }
     }
 }
