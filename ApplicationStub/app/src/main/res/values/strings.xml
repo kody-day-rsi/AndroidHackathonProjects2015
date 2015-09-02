@@ -18,4 +18,5 @@
     <string name="menu_sort">Sort</string>
 
     <string name="snackbar_error">Network Error</string>
+    <string name="googleApiKey">blankkey</string>
 </resources>

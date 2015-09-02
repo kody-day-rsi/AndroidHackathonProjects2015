@@ -2,6 +2,8 @@ package rsi.com.applicationstub;
 
 import android.content.Context;
 
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.location.places.Places;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -24,7 +26,7 @@ import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import rsi.com.applicationstub.view.AddJobDialog;
 
-@Module(injects = {BaseDialogFragment.class, BaseFragment.class, MainActivity.class, JobListFragment.class, AddJobDialog.class, SortJobListDialog.class})
+@Module(injects = {BaseDialogFragment.class, BaseFragment.class, MainActivity.class, JobListFragment.class, AddJobDialog.class, SortJobListDialog.class, GoogleApiFragment.class})
 public class ServiceModule {
 
     private Context mContext;
@@ -72,4 +74,5 @@ public class ServiceModule {
     public Bus getBus() {
         return new Bus();
     }
+
 }

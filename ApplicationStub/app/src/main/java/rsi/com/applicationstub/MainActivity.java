@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle state) {
         super.onCreate(state);
 
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
+        getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         mObjectGraph = ObjectGraph.create(new ServiceModule(this));
         mObjectGraph.inject(this);
 
