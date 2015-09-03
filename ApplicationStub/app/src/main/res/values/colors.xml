@@ -13,8 +13,8 @@
     <color name="clubhouse_black">#FFFFFF</color>
     <color name="clubhouse_white">#DEDEDE</color>
 
-    <color name="rsi_red">#d72828</color>
-    <color name="rsi_dark_red">#6c1414</color>
+    <color name="rsi_red">#cd0000</color>
+    <color name="rsi_dark_red">#600</color>
 
     <color name="fade">#33000000</color>
 </resources>
