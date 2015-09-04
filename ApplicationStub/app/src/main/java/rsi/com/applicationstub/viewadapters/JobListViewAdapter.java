@@ -1,4 +1,4 @@
-package rsi.com.applicationstub.view;
+package rsi.com.applicationstub.viewadapters;
 
 import android.support.v7.util.SortedList;
 import android.support.v7.widget.RecyclerView;

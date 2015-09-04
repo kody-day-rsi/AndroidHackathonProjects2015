@@ -8,6 +8,8 @@ import com.squareup.otto.Bus;
 
 import javax.inject.Inject;
 
+import rsi.com.applicationstub.activity.MainActivity;
+
 public class BaseDialogFragment extends DialogFragment {
 
     @Inject

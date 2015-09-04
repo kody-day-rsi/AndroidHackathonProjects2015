@@ -5,4 +5,9 @@
         <item name="location">Location</item>
         <item name="date">Date</item>
     </array>
+    <array name="dialog_search_choices">
+        <item name="position">Position</item>
+        <item name="location">Location</item>
+        <item name="date">Date</item>
+    </array>
 </resources>

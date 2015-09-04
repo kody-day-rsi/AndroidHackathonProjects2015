@@ -2,8 +2,6 @@ package rsi.com.applicationstub;
 
 import android.content.Context;
 
-import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.location.places.Places;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonDeserializationContext;
@@ -24,16 +22,27 @@ import dagger.Module;
 import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
+import rsi.com.applicationstub.activity.MainActivity;
+import rsi.com.applicationstub.service.GoogleApiFragment;
+import rsi.com.applicationstub.service.JobService;
 import rsi.com.applicationstub.view.AddJobDialog;
+import rsi.com.applicationstub.view.DatePickerFragment;
+import rsi.com.applicationstub.view.JobListFragment;
+import rsi.com.applicationstub.view.SearchJobFragment;
+import rsi.com.applicationstub.view.SortJobListDialog;
 
-@Module(injects = {BaseDialogFragment.class, BaseFragment.class, MainActivity.class, JobListFragment.class, AddJobDialog.class, SortJobListDialog.class, GoogleApiFragment.class})
-public class ServiceModule {
+@Module(injects = {
+        BaseDialogFragment.class, BaseFragment.class, MainActivity.class, JobListFragment.class,
+        AddJobDialog.class, SortJobListDialog.class, GoogleApiFragment.class,
+        SearchJobFragment.class, DatePickerFragment.class
+})
+public class DaggerModule {
 
     private Context mContext;
 
     private RestAdapter mBuilder;
 
-    public ServiceModule(Context context) {
+    public DaggerModule(Context context) {
         mContext = context;
 
         JsonSerializer<Date> ser = new JsonSerializer<Date>() {

@@ -1,4 +1,4 @@
-package rsi.com.applicationstub;
+package rsi.com.applicationstub.service;
 
 import android.os.Bundle;
 
@@ -6,6 +6,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.places.Places;
+
+import rsi.com.applicationstub.BaseFragment;
 
 public class GoogleApiFragment extends BaseFragment {
 

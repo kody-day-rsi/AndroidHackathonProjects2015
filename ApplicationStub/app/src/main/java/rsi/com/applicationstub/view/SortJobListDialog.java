@@ -1,4 +1,4 @@
-package rsi.com.applicationstub;
+package rsi.com.applicationstub.view;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -6,8 +6,10 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 
+import rsi.com.applicationstub.BaseDialogFragment;
+import rsi.com.applicationstub.R;
 import rsi.com.applicationstub.event.ChangeJobSortEvent;
-import rsi.com.applicationstub.view.JobListViewAdapter;
+import rsi.com.applicationstub.viewadapters.JobListViewAdapter;
 
 public class SortJobListDialog extends BaseDialogFragment {
 

@@ -1,4 +1,4 @@
-package rsi.com.applicationstub;
+package rsi.com.applicationstub.view;
 
 
 import android.os.Bundle;
@@ -13,12 +13,11 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AutoCompleteTextView;
 
 import com.squareup.otto.Subscribe;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,13 +27,15 @@ import butterknife.ButterKnife;
 import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
+import rsi.com.applicationstub.BaseFragment;
+import rsi.com.applicationstub.service.JobService;
+import rsi.com.applicationstub.R;
 import rsi.com.applicationstub.domain.Job;
 import rsi.com.applicationstub.event.AddJobEvent;
 import rsi.com.applicationstub.event.ChangeJobSortEvent;
 import rsi.com.applicationstub.event.FABEvent;
 import rsi.com.applicationstub.event.GetJobListServiceEvent;
-import rsi.com.applicationstub.view.AddJobDialog;
-import rsi.com.applicationstub.view.JobListViewAdapter;
+import rsi.com.applicationstub.viewadapters.JobListViewAdapter;
 
 public class JobListFragment extends BaseFragment {
 
@@ -151,7 +152,7 @@ public class JobListFragment extends BaseFragment {
     @Subscribe
     public void addJob(AddJobEvent event) {
         mSwipeRefreshLayout.setRefreshing(true);
-        event.job.setTimestamp(new Date());
+        event.job.setTimestamp(new Timestamp(System.currentTimeMillis()));
         mService.createJob(event.job, new ServiceCallback());
     }
 

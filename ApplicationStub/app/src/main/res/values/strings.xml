@@ -13,10 +13,22 @@
     <string name="dialog_cancel">Cancel</string>
     <string name="dialog_change_sort">Change jobs sort order</string>
 
+    <string name="search_by_date">Search By Date</string>
+
     <string name="OK">OK</string>
 
     <string name="menu_sort">Sort</string>
+    <string name="menu_search">Search</string>
 
     <string name="snackbar_error">Network Error</string>
     <string name="googleApiKey">blankkey</string>
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string-array name="search_criteria_choices">
+        <item>@string/position</item>
+        <item>@string/location</item>
+        <item>@string/date</item>
+    </string-array>
 </resources>

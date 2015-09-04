@@ -1,6 +1,8 @@
 package com.rsi;
 
 import javax.persistence.*;
+
+import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity

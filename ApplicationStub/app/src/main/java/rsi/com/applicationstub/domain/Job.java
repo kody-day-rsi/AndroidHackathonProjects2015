@@ -3,13 +3,14 @@ package rsi.com.applicationstub.domain;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import java.sql.Timestamp;
 import java.util.Date;
 
 public class Job implements Parcelable {
 
     private String position;
     private String location;
-    private Date timestamp;
+    private Timestamp timestamp;
 
     public Job() {
         // default constructor
@@ -36,18 +37,18 @@ public class Job implements Parcelable {
         this.location = location;
     }
 
-    public Date getTimestamp() {
+    public Timestamp getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Date timestamp) {
+    public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
     }
 
     private Job(Parcel in) {
         position = in.readString();
         location = in.readString();
-        timestamp = new Date(in.readLong());
+        timestamp = new Timestamp(in.readLong());
     }
 
     @Override

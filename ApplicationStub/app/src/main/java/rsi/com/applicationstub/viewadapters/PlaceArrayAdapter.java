@@ -1,4 +1,4 @@
-package rsi.com.applicationstub;
+package rsi.com.applicationstub.viewadapters;
 
 import android.content.Context;
 import android.util.Log;
