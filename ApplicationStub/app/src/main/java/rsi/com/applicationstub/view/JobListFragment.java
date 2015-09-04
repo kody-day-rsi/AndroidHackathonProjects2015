@@ -18,6 +18,7 @@ import com.squareup.otto.Subscribe;
 
 import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import javax.inject.Inject;
@@ -28,6 +29,7 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rsi.com.applicationstub.BaseFragment;
+import rsi.com.applicationstub.event.SearchJobEvent;
 import rsi.com.applicationstub.service.JobService;
 import rsi.com.applicationstub.R;
 import rsi.com.applicationstub.domain.Job;
@@ -51,17 +53,20 @@ public class JobListFragment extends BaseFragment {
 
     private JobListViewAdapter mAdapter;
 
+    SearchJobEvent mEvent;
+
+    public static JobListFragment newInstance(SearchJobEvent event) {
+        JobListFragment fragment = new JobListFragment();
+        fragment.mEvent = event;
+        return fragment;
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_job_list, container, false);
         ButterKnife.bind(this, view);
         return view;
-    }
-
-    @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(R.menu.fragment_job_list_menu, menu);
     }
 
     @Override
@@ -84,6 +89,11 @@ public class JobListFragment extends BaseFragment {
     public void onCreate(Bundle state) {
         super.onCreate(state);
         setHasOptionsMenu(true);
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(R.menu.fragment_job_list_menu, menu);
     }
 
     @Override
@@ -112,6 +122,7 @@ public class JobListFragment extends BaseFragment {
                 }
             }
         }));
+
         mJobListView.setAdapter(mAdapter);
 
         mJobListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -141,7 +152,19 @@ public class JobListFragment extends BaseFragment {
 
     public void doRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
-        mService.getJobs(new ServiceCallback());
+        switch(mEvent != null ? mEvent.criteria : -1){
+            case SearchJobEvent.LOCATION:
+                mService.findJobsByLocation(mEvent.location, new ServiceCallback());
+                break;
+            case SearchJobEvent.POSITION:
+                mService.findJobsByPosition(mEvent.position, new ServiceCallback());
+                break;
+            case SearchJobEvent.DATE:
+                mService.findJobsAfterTimestamp(mEvent.date, new ServiceCallback());
+                break;
+            default:
+                mService.getJobs(new ServiceCallback());
+        }
     }
 
     @Subscribe
@@ -152,8 +175,8 @@ public class JobListFragment extends BaseFragment {
     @Subscribe
     public void addJob(AddJobEvent event) {
         mSwipeRefreshLayout.setRefreshing(true);
-        event.job.setTimestamp(new Timestamp(System.currentTimeMillis()));
-        mService.createJob(event.job, new ServiceCallback());
+        event.job.setTimestamp(new Date(System.currentTimeMillis()));
+        mService.createJob(event.job, new AddJobCallback());
     }
 
     @Subscribe
@@ -178,6 +201,19 @@ public class JobListFragment extends BaseFragment {
         @Override
         public void failure(RetrofitError error) {
             mEventBus.post(new GetJobListServiceEvent(false, null));
+        }
+    }
+
+    private class AddJobCallback implements Callback<Void> {
+
+        @Override
+        public void success(Void aVoid, Response response) {
+            doRefresh();
+        }
+
+        @Override
+        public void failure(RetrofitError error) {
+
         }
     }
 

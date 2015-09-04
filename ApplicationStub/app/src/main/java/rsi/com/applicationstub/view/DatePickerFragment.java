@@ -21,6 +21,7 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import rsi.com.applicationstub.BaseDialogFragment;
 import rsi.com.applicationstub.R;
+import rsi.com.applicationstub.event.SearchJobEvent;
 
 public class DatePickerFragment extends BaseDialogFragment {
 
@@ -59,7 +60,7 @@ public class DatePickerFragment extends BaseDialogFragment {
                         Calendar cal = Calendar.getInstance();
                         cal.set(year, month, dayOfMonth, hour, minutes, 0);
                         date = cal.getTime();
-                        Log.i("TIME", SimpleDateFormat.getDateTimeInstance().format(date));
+                        mEventBus.post(new SearchJobEvent(date));
                     }
                 })
                 .create();

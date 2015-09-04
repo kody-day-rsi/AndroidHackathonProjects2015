@@ -21,23 +21,22 @@ public class JobController {
     }
 
     @RequestMapping("/addJob")
-    public List<Job> addJob(@RequestBody Job job) {
+    public void addJob(@RequestBody Job job) {
         repo.save(job);
-        return repo.findAll();
     }
 
-    @RequestMapping("/findJobByPosition")
-    public List<Job> findJobByPosition(@RequestBody String position) {
+    @RequestMapping("/findJobsByPosition")
+    public List<Job> findJobsByPosition(@RequestBody String position) {
         return repo.findByPosition(position);
     }
 
-    @RequestMapping("/findJobByLocation")
-    public List<Job> findJobByLocation(@RequestBody String location) {
+    @RequestMapping("/findJobsByLocation")
+    public List<Job> findJobsByLocation(@RequestBody String location) {
         return repo.findByLocation(location);
     }
 
-    @RequestMapping("/findJobAfterTimestamp")
-    public List<Job> findJobAfterTimestamp(@RequestBody Date timestamp) {
+    @RequestMapping("/findJobsAfterTimestamp")
+    public List<Job> findJobsAfterTimestamp(@RequestBody Date timestamp) {
         return repo.findByTimestampBetween(timestamp, new Date(System.currentTimeMillis()));
     }
 

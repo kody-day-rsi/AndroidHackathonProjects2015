@@ -2,6 +2,7 @@ package rsi.com.applicationstub.view;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,11 +10,18 @@ import android.widget.ArrayAdapter;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
+import com.squareup.otto.Subscribe;
+
+import java.text.SimpleDateFormat;
+import java.util.SimpleTimeZone;
+import java.util.logging.SimpleFormatter;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rsi.com.applicationstub.BaseFragment;
 import rsi.com.applicationstub.R;
+import rsi.com.applicationstub.event.SearchJobEvent;
 
 public class SearchJobFragment extends BaseFragment {
 
@@ -45,5 +53,12 @@ public class SearchJobFragment extends BaseFragment {
         // Apply the adapter to the spinner
         mSearchCriteriaSpinner.setAdapter(adapter);
         return view;
+    }
+
+    @Subscribe
+    public void search(SearchJobEvent event) {
+        Log.i("SEARCH", Integer.toString(event.criteria) + " " + SimpleDateFormat.getDateTimeInstance().format(event.date));
+
+        getChildFragmentManager().beginTransaction().add(R.id.list_frame, JobListFragment.newInstance(event), "AAA").commit();
     }
 }

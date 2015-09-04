@@ -10,7 +10,7 @@ public class Job implements Parcelable {
 
     private String position;
     private String location;
-    private Timestamp timestamp;
+    private Date timestamp;
 
     public Job() {
         // default constructor
@@ -37,11 +37,11 @@ public class Job implements Parcelable {
         this.location = location;
     }
 
-    public Timestamp getTimestamp() {
+    public Date getTimestamp() {
         return timestamp;
     }
 
-    public void setTimestamp(Timestamp timestamp) {
+    public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
     }
 
