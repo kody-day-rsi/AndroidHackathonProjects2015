@@ -21,6 +21,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import rsi.com.applicationstub.BaseFragment;
 import rsi.com.applicationstub.R;
+import rsi.com.applicationstub.event.FABEvent;
 import rsi.com.applicationstub.event.SearchJobEvent;
 
 public class SearchJobFragment extends BaseFragment {
@@ -60,5 +61,10 @@ public class SearchJobFragment extends BaseFragment {
         Log.i("SEARCH", Integer.toString(event.criteria) + " " + SimpleDateFormat.getDateTimeInstance().format(event.date));
 
         getChildFragmentManager().beginTransaction().add(R.id.list_frame, JobListFragment.newInstance(event), "AAA").commit();
+    }
+
+    @Subscribe
+    public void onFABClicked(FABEvent event) {
+        new AddJobDialog().show(getChildFragmentManager(), "addJob");
     }
 }

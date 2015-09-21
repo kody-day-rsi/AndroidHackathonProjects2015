@@ -29,6 +29,17 @@ public class GoogleApiFragment extends BaseFragment {
                             // cry
                         }
                     })
+                    .addConnectionCallbacks(new GoogleApiClient.ConnectionCallbacks() {
+                        @Override
+                        public void onConnected(Bundle bundle) {
+
+                        }
+
+                        @Override
+                        public void onConnectionSuspended(int i) {
+
+                        }
+                    })
                     .build();
         }
     }

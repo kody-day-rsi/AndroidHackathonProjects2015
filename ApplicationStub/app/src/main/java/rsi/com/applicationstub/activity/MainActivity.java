@@ -51,7 +51,6 @@ public class MainActivity extends AppCompatActivity {
         getSupportFragmentManager()
                 .beginTransaction()
                 .add(R.id.JobListFragmentContainer, new JobListFragment(), LIST_TAG)
-                .addToBackStack(null)
                 .commit();
     }
 
@@ -69,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 getSupportFragmentManager()
                         .beginTransaction()
                         .replace(R.id.JobListFragmentContainer, new SearchJobFragment())
+                        .addToBackStack(null)
                         .commit();
                 return true;
             default:
