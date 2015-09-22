@@ -23,18 +23,13 @@ import dagger.Provides;
 import retrofit.RestAdapter;
 import retrofit.converter.GsonConverter;
 import rsi.com.applicationstub.activity.MainActivity;
-import rsi.com.applicationstub.service.GoogleApiFragment;
 import rsi.com.applicationstub.service.JobService;
 import rsi.com.applicationstub.view.AddJobDialog;
-import rsi.com.applicationstub.view.DatePickerFragment;
 import rsi.com.applicationstub.view.JobListFragment;
-import rsi.com.applicationstub.view.SearchJobFragment;
-import rsi.com.applicationstub.view.SortJobListDialog;
 
 @Module(injects = {
         BaseDialogFragment.class, BaseFragment.class, MainActivity.class, JobListFragment.class,
-        AddJobDialog.class, SortJobListDialog.class, GoogleApiFragment.class,
-        SearchJobFragment.class, DatePickerFragment.class
+        AddJobDialog.class
 })
 public class DaggerModule {
 

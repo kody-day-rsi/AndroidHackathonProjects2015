@@ -10,13 +10,11 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.squareup.otto.Subscribe;
 
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,14 +27,12 @@ import retrofit.Callback;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 import rsi.com.applicationstub.BaseFragment;
-import rsi.com.applicationstub.event.SearchJobEvent;
-import rsi.com.applicationstub.service.JobService;
 import rsi.com.applicationstub.R;
 import rsi.com.applicationstub.domain.Job;
 import rsi.com.applicationstub.event.AddJobEvent;
-import rsi.com.applicationstub.event.ChangeJobSortEvent;
 import rsi.com.applicationstub.event.FABEvent;
 import rsi.com.applicationstub.event.GetJobListServiceEvent;
+import rsi.com.applicationstub.service.JobService;
 import rsi.com.applicationstub.viewadapters.JobListViewAdapter;
 
 public class JobListFragment extends BaseFragment {
@@ -53,36 +49,12 @@ public class JobListFragment extends BaseFragment {
 
     private JobListViewAdapter mAdapter;
 
-    SearchJobEvent mEvent;
-
-    public static JobListFragment newInstance(SearchJobEvent event) {
-        JobListFragment fragment = new JobListFragment();
-        fragment.mEvent = event;
-        return fragment;
-    }
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_job_list, container, false);
         ButterKnife.bind(this, view);
         return view;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case R.id.menu_sort:
-                new SortJobListDialog().show(getChildFragmentManager(), "sortJob");
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-        }
-    }
-
-    @Subscribe
-    public void onSortChange(ChangeJobSortEvent event) {
-        mAdapter.changeComparator(event.comparator);
     }
 
     @Override
@@ -107,7 +79,6 @@ public class JobListFragment extends BaseFragment {
             }
         });
 
-        mAdapter = new JobListViewAdapter(JobListViewAdapter.DATE_COMPARATOR);
         mJobListView.setLayoutManager(new LinearLayoutManager(getContext()));
         mJobListView.addItemDecoration(new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
             @Override
@@ -117,12 +88,13 @@ public class JobListFragment extends BaseFragment {
 
             @Override
             public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                if(ItemTouchHelper.LEFT == direction) {
+                if (ItemTouchHelper.LEFT == direction) {
 
                 }
             }
         }));
 
+        mAdapter = new JobListViewAdapter();
         mJobListView.setAdapter(mAdapter);
 
         mJobListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
@@ -139,7 +111,7 @@ public class JobListFragment extends BaseFragment {
 
         if (state != null) {
             ArrayList<Job> jobs = state.getParcelableArrayList(JOB_LIST_KEY);
-            mAdapter.refreshJobs(jobs);
+            mAdapter.refresh(jobs);
         } else {
             mSwipeRefreshLayout.post(new Runnable() {
                 @Override
@@ -152,19 +124,7 @@ public class JobListFragment extends BaseFragment {
 
     public void doRefresh() {
         mSwipeRefreshLayout.setRefreshing(true);
-        switch(mEvent != null ? mEvent.criteria : -1){
-            case SearchJobEvent.LOCATION:
-                mService.findJobsByLocation(mEvent.location, new ServiceCallback());
-                break;
-            case SearchJobEvent.POSITION:
-                mService.findJobsByPosition(mEvent.position, new ServiceCallback());
-                break;
-            case SearchJobEvent.DATE:
-                mService.findJobsAfterTimestamp(mEvent.date, new ServiceCallback());
-                break;
-            default:
-                mService.getJobs(new ServiceCallback());
-        }
+        mService.getJobs(new ServiceCallback());
     }
 
     @Subscribe
@@ -181,8 +141,8 @@ public class JobListFragment extends BaseFragment {
 
     @Subscribe
     public void onServiceRefreshSuccess(GetJobListServiceEvent event) {
-        if(event.isSuccessful) {
-            mAdapter.refreshJobs(event.jobs);
+        if (event.isSuccessful) {
+            mAdapter.refresh(event.jobs);
         } else {
             Snackbar
                     .make(mSwipeRefreshLayout, R.string.snackbar_error, Snackbar.LENGTH_LONG)
@@ -216,6 +176,4 @@ public class JobListFragment extends BaseFragment {
 
         }
     }
-
-
 }
