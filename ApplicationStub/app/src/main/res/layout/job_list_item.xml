@@ -10,10 +10,17 @@
     android:layout_marginStart="@dimen/activity_horizontal_margin"
     card_view:cardCornerRadius="4dp">
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_margin="@dimen/activity_horizontal_margin">
+
+        <TextView
+            android:id="@+id/companyName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="RSI" />
 
         <TextView
             android:id="@+id/position"
@@ -22,21 +29,23 @@
             tools:text="Java Developer" />
 
         <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:text="A very fancy position" />
+
+        <TextView
             android:id="@+id/location"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="12sp"
-            tools:text="Enterprise Mill"
-            android:layout_below="@+id/position" />
+            tools:text="Enterprise Mill" />
 
         <TextView
             android:id="@+id/date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_alignParentEnd="true"
-            android:layout_centerVertical="true"
             tools:text="4 July 2001 12:08"/>
 
-    </RelativeLayout>
+    </LinearLayout>
 
 </android.support.v7.widget.CardView>

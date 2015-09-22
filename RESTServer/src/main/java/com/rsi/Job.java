@@ -2,7 +2,6 @@ package com.rsi;
 
 import javax.persistence.*;
 
-import java.sql.Timestamp;
 import java.util.Date;
 
 @Entity
@@ -13,7 +12,13 @@ public class Job {
     private Long id;
 
     @Column(nullable = false)
+    private String companyName;
+
+    @Column(nullable = false)
     private String position;
+
+    @Column(nullable = false)
+    private String description;
 
     @Column(nullable = false)
     private String location;
@@ -26,11 +31,12 @@ public class Job {
         // default constructor
     }
 
-
-    public Job(String position, String location, Date timestamp) {
+    public Job(String companyName, String position, String description, String location, Date timestamp) {
+        this.companyName = companyName;
         this.position = position;
         this.location = location;
         this.timestamp = timestamp;
+        this.description = description;
     }
 
     public String getPosition() {
@@ -55,5 +61,21 @@ public class Job {
 
     public void setTimestamp(Date timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
     }
 }

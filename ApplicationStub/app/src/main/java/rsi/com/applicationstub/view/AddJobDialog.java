@@ -28,6 +28,10 @@ public class AddJobDialog extends BaseDialogFragment {
     AutoCompleteTextView mAutoCompleteLocation;
     @Bind(R.id.position)
     EditText mPositionText;
+    @Bind(R.id.description)
+    EditText mDescriptionText;
+    @Bind(R.id.companyName)
+    EditText mCompanyName;
 
     private static final LatLngBounds BOUNDS_MOUNTAIN_VIEW = new LatLngBounds(
             new LatLng(37.398160, -122.180831), new LatLng(37.430610, -121.972090));
@@ -55,7 +59,8 @@ public class AddJobDialog extends BaseDialogFragment {
                 .setPositiveButton(R.string.dialog_add, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Job job = new Job(mPositionText.getText().toString(), mAutoCompleteLocation.getText().toString());
+                        Job job = new Job(mCompanyName.getText().toString(), mPositionText.getText().toString(),
+                                mAutoCompleteLocation.getText().toString(), mDescriptionText.getText().toString());
                         mEventBus.post(new AddJobEvent(job));
                     }
                 })

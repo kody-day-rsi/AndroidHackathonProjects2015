@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Comparator;
@@ -117,8 +119,10 @@ public class JobListViewAdapter extends RecyclerView.Adapter<JobListViewAdapter.
     @Override
     public void onBindViewHolder(JobViewHolder jobViewHolder, int i) {
         Job job = jobs.get(i);
+        jobViewHolder.companyName.setText(job.getCompanyName());
         jobViewHolder.position.setText(job.getPosition());
         jobViewHolder.location.setText(job.getLocation());
+        jobViewHolder.description.setText(job.getDescription());
         jobViewHolder.date.setText(mFormat.format(job.getTimestamp()));
     }
 
@@ -128,17 +132,20 @@ public class JobListViewAdapter extends RecyclerView.Adapter<JobListViewAdapter.
     }
 
     public class JobViewHolder extends RecyclerView.ViewHolder {
-        TextView position, location, date;
+        TextView companyName, position, description, location, date;
 
         public JobViewHolder(View itemView, Job job) {
             super(itemView);
 
+            companyName = (TextView) itemView.findViewById(R.id.companyName);
             position = (TextView) itemView.findViewById(R.id.position);
+            description = (TextView) itemView.findViewById(R.id.description);
             location = (TextView) itemView.findViewById(R.id.location);
             date = (TextView) itemView.findViewById(R.id.date);
 
             if (job != null) {
                 position.setText(job.getPosition());
+                description.setText(job.getDescription());
                 location.setText(job.getLocation());
                 date.setText(mFormat.format(job.getTimestamp()));
             }

@@ -5,8 +5,10 @@
 
     <string name="endpoint">http://10.0.2.2:8080</string>
 
+    <string name="companyName">Company Name</string>
     <string name="location">Location</string>
     <string name="position">Position</string>
+    <string name="description">Description</string>
     <string name="date">Date</string>
     <string name="dialog_add_job_title">Add Job</string>
     <string name="dialog_add">Add</string>

@@ -6,8 +6,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
+import javax.annotation.PostConstruct;
 
 @RestController
 public class JobController {
@@ -39,5 +42,26 @@ public class JobController {
     public List<Job> findJobsAfterTimestamp(@RequestBody Date timestamp) {
         return repo.findByTimestampBetween(timestamp, new Date(System.currentTimeMillis()));
     }
+
+    @PostConstruct
+    public void populateData() {
+
+        String testCompanyName = "RSI";
+        String[] positions = {"Test Position 1", "Test Position 2",
+                "Test Position 3", "Test Position 4", "Test Position 5"};
+        String testDescription = "This is a test description";
+
+        String[] locations = {"Test location, GA", "Test location, AL",
+                "Test location NY", "Test location TX", "Test location FL"};
+
+        for(int i = 0; i < 5; i++) {
+            Job job = new Job(testCompanyName, positions[i], testDescription,
+                    locations[i], new Date());
+            addJob(job);
+        }
+
+
+    }
+
 
 }
