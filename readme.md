@@ -1,9 +1,14 @@
 # RSI Hackathon Android Application Bundle
 
 ## Directory contents
-ApplicationStub contains the android app source
+ApplicationStub contains the android app source.
 
-RESTServer contains the backend server source
+RESTServer contains the backend server source.
+
+## Gradle Instructions
+Please extract the .gradle zip into your Window's user folder.
+
+This will let gradle use an existing cache to download dependencies so that the provided internet connection isn't overwhelmed.
 
 ### Requirements for the Android app
 Android Studio
@@ -15,9 +20,9 @@ SDK version 23
 An emulator (Android Studio's or Genymotion)
 
 ### Instructions for the Android app
-Import the ApplicationStub folder as an android app
+Import the ApplicationStub folder as an android app.
 
-There should be a run configuration already created for the app module
+There should be a run configuration already created for the app module.
 
 ### Requirements for the backend server
 Eclipse(with Gradle Buildship plugin) or IntelliJ
