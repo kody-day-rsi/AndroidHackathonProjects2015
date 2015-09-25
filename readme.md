@@ -10,22 +10,10 @@ Please extract the .gradle zip into your Window's user folder.
 
 This will let gradle use an existing cache to download dependencies so that the provided internet connection isn't overwhelmed.
 
-### Requirements for the Android app
-Android Studio
-
-SDK Build tools version 23.0.0
-
-SDK version 23
-
-An emulator (Android Studio's or Genymotion)
-
 ### Instructions for the Android app
 Import the ApplicationStub folder as an android app.
 
 There should be a run configuration already created for the app module.
-
-### Requirements for the backend server
-Eclipse(with Gradle Buildship plugin) or IntelliJ
 
 ### Instructions for the backend server
 Import the RESTServer as a gradle project, made available by buildship.
