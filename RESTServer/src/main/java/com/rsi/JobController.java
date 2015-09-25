@@ -60,7 +60,6 @@ public class JobController {
             addJob(job);
         }
 
-
     }
 
 

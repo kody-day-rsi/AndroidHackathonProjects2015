@@ -1,14 +1,6 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        config {
-            keyAlias 'ExampleKey'
-            keyPassword '3797hDwet'
-            storeFile file('C:/Users/kody.day/fffff.jks')
-            storePassword '3797hDwet'
-        }
-    }
     compileSdkVersion 23
     buildToolsVersion "23.0.0"
     defaultConfig {
@@ -18,6 +10,7 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
     buildTypes {
         release {
             minifyEnabled false
@@ -25,7 +18,6 @@ android {
         }
     }
 
-    flavorDimensions 'endpoint', 'apikey'
     productFlavors {
         studioEmulator {
             // Change endpoint for android studio's emulator
@@ -35,26 +27,19 @@ android {
             // Change endpoint for genymotion's emulator
             flavorDimension 'endpoint'
         }
-        NoAPI {
-            flavorDimension 'apikey'
-        }
-        GoogleAPI {
-            // with actual API key
-            flavorDimension 'apikey'
-        }
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.0.0'
-    compile 'com.android.support:design:23.0.0'
+    compile 'com.android.support:appcompat-v7:23.0.1'
+    compile 'com.android.support:design:23.0.1'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'com.squareup.dagger:dagger:1.2.2'
     compile 'com.squareup:otto:1.3.8'
     provided 'com.squareup.dagger:dagger-compiler:1.2.2'
-    compile 'com.android.support:recyclerview-v7:23.0.0'
-    compile 'com.android.support:cardview-v7:23.0.0'
+    compile 'com.android.support:recyclerview-v7:23.0.1'
+    compile 'com.android.support:cardview-v7:23.0.1'
     compile 'com.jakewharton:butterknife:7.0.1'
     compile 'com.google.android.gms:play-services-location:7.8.0'
 

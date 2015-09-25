@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Inject
     Bus mEventBus;
 
-    private static String LIST_TAG = "DON'T LEAVE PLEASE";
+    private static String LIST_TAG = "A";
 
     @Override
     protected void onCreate(Bundle state) {
@@ -31,7 +31,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayShowHomeEnabled(true);
-            getSupportActionBar().setIcon(R.mipmap.ic_launcher);
         }
 
         mObjectGraph = ObjectGraph.create(new DaggerModule(this));

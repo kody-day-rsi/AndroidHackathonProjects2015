@@ -39,8 +39,9 @@ public class AddJobDialog extends BaseDialogFragment {
                 .setPositiveButton(R.string.dialog_add, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        Job job = new Job(mCompanyName.getText().toString(), mPositionText.getText().toString(),
-                                mCity.getText().toString(), mDescriptionText.getText().toString());
+                        Job job = new Job(mCompanyName.getText().toString(), mDescriptionText.getText().toString(),
+                                mCity.getText().toString(), mPositionText.getText().toString());
+                        mEventBus.post(new AddJobEvent(job));
                         mEventBus.post(new AddJobEvent(job));
                     }
                 })

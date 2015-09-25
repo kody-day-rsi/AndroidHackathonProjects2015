@@ -6,7 +6,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -45,7 +44,7 @@ public class JobListFragment extends BaseFragment {
     @Bind(R.id.swipeRefreshLayout)
     SwipeRefreshLayout mSwipeRefreshLayout;
 
-    private static final String JOB_LIST_KEY = "AAAAAAAAAAAAAAAAAAAAAAA";
+    private static final String JOB_LIST_KEY = "B";
 
     private JobListViewAdapter mAdapter;
 
@@ -80,19 +79,6 @@ public class JobListFragment extends BaseFragment {
         });
 
         mJobListView.setLayoutManager(new LinearLayoutManager(getContext()));
-        mJobListView.addItemDecoration(new ItemTouchHelper(new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.RIGHT) {
-            @Override
-            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
-                return false;
-            }
-
-            @Override
-            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
-                if (ItemTouchHelper.LEFT == direction) {
-
-                }
-            }
-        }));
 
         mAdapter = new JobListViewAdapter();
         mJobListView.setAdapter(mAdapter);
@@ -100,6 +86,7 @@ public class JobListFragment extends BaseFragment {
         mJobListView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(RecyclerView recyclerView, int state) {
+                // Prevent swipe to refresh from starting after the user started scrolling up
                 if (state == RecyclerView.SCROLL_STATE_IDLE) {
                     mSwipeRefreshLayout.setEnabled(
                             ((LinearLayoutManager) recyclerView.getLayoutManager())
