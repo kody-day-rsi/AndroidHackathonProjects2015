@@ -21,3 +21,9 @@ Switch the build variant inside android studio to configure the localhost listen
 
 ### Requirements for the backend server
 Eclipse(with Gradle Buildship plugin) or IntelliJ
+
+https://eclipse.org/downloads/
+
+https://projects.eclipse.org/projects/tools.buildship/downloads
+
+https://www.jetbrains.com/idea/download/
